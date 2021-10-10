@@ -1,0 +1,108 @@
+{% extends 'base.html' %} {% block title %}
+<title>Home</title>
+{% endblock %} {% block content %} 
+<style>
+    th, td, th, tr{
+        text-align: center;
+    }
+</style>
+<div style="width: 100%; height: 95%; display: flex; justify-content: center; align-items: center;">
+    <div style="height: 90%; width: 90%;">
+    {% if error %}
+        <ul style="list-style: none;">
+            <li style="color: red;"><h3>Invalid Input!</h3></li>
+        </ul>
+    {% endif %}
+        <div style="display: flex; width: 100%; justify-content: space-between;">
+            <h2 style="margin-bottom: 20px;">EVENTS</h2>
+            <button type="button" class="btn btn-success" style="height: 50px;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                ADD EVENT
+              </button>
+        </div>
+        
+        <table id="example" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Event Location</th>
+                    <th>Event Date</th>
+                    <th>Event Remarks</th>
+                    <th>Pricing</th>                    
+                    <th>Created At</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                
+            {% if all_events %}
+                {% for event in all_events %}
+                    <tr>                        
+                        <td style = 'display: flex; align-items: center; justify-content:center'>
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <input type="text" hidden value="{{ event.id }}">
+                                <button class="btn btn-danger" style="margin-right: 10px; width:20px; height:20px; display: flex; align-items: center; justify-content: center;"><i class="fas fa-trash" style="font-size:10px"></i></button>                                
+                            </form>
+                            <a href={% url 'edit' event.id %}>{{ event.event_name }}</a></td>
+                        <td>{{ event.event_location }}</td>
+                        <td>{{ event.event_date }}</td>
+                        <td>{{ event.event_remarks }}</td>
+                        <td>{{ event.pricing }}</td>
+                        <td>{{ event.created_at }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+                
+                    
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Event</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="display:flex; flex-direction:column">
+          <form action="" method="post">
+              {% csrf_token %}
+              <div style="display:flex" class="my-3">
+                <label for="event_name" style="width: 120px;" class="form-label text-black">Event Name</label>
+                <input type="text" name="event_name" class="form-control">
+              </div>
+              <div style="display:flex" class="my-3">
+                <label for="event_location" style="width: 150px;" class="form-label text-black">Event Location</label>
+                <input type="text" name="event_location" class="form-control">
+              </div>
+              <div style="display:flex" class="my-3">
+                <label for="event_date" style="width: 120px;" class="form-label text-black">Event Date</label>
+                <input type="date" name="event_date" class="form-control">
+              </div>
+              <div style="display:flex" class="my-3">
+                <label for="event_remarks" style="width: 120px;" class="form-label text-black">Event Remarks</label>
+                <input type="text" name="event_remarks" class="form-control">
+              </div>
+              <div style="display:flex" class="my-3">
+                <label for="pricing" style="width: 120px;" class="form-label text-black">Price</label>
+                <input type="number" min="0" step="0.01" name="pricing" class="form-control">
+              </div>           
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+
+
+{%endblock %}

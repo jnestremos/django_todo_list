@@ -1,0 +1,81 @@
+{% extends 'base.html' %} {% block title %}
+<title>Edit Item</title>
+{% endblock %} {% block content %}
+
+{% comment %} <div style="width: 100%; height: 95%; display: flex; justify-content: center; align-items: center;">  
+  <div style="height: 70%; width: 70%; background-color: aliceblue; position: relative;">
+    <h2 style="height: 5%;">EVENT DETAILS</h2>
+    <div style="width: 100%; flex-direction: column; height: 95%; display: flex; justify-content:center;">
+      <div style="height: 25%; width: 50%; display: flex; align-items: center; justify-content: space-between; margin: 0 auto;">
+        <div>
+          <h4>Event Name:</h4>
+          <input type="text" class='form-control' style="width: 400px;" value="{{ event.event_name }}">
+        </div>
+        <div>
+          <h4>Location:</h4>
+          <input type="text" class='form-control' value="{{ event.event_location }}">
+        </div>
+      </div>
+      <div style=" height: 25%; width: 50%; display: flex; align-items: center; justify-content: space-between; margin: 0 auto;">
+        <div>
+          <h4>Date:</h4>
+          <input type="date" class='form-control' value="{{ event.event_date|date:"Y-m-d" }}">
+        </div>
+        <div>
+          <h4>Pricing:</h4>
+          <input type="number" class='form-control' value="{{ event.pricing }}" id="pricing">
+        </div>          
+        <div>
+          <h4>Remarks:</h4>
+          <input type="text" class='form-control' value="{{ event.event_remarks }}">
+        </div>          
+      </div>
+      <button type="submit" class="btn btn-success" style="width: 200px; height: 40px; position: absolute; bottom: 10%; right: 10%;">
+        Edit Event
+      </button>
+    </button>    
+  </div>  
+</div> {% endcomment %}
+
+<div style="width: 100%; height: 95%; display: flex; justify-content: center; align-items: center;">
+  <div style="height: 70%; width: 70%; background-color: aliceblue; position: relative;">
+    <h2 style="height: 5%;">EVENT DETAILS</h2>
+    <form action="" method="POST" style="width: 100%; flex-direction: column; height: 95%; display: flex; justify-content:center;">
+      {% csrf_token %}
+      <div style="height: 25%; width: 50%; display: flex; align-items: center; justify-content: space-between; margin: 0 auto;">
+        <div>
+          <h4>Event Name:</h4>
+          <input type="text" class='form-control' style="width: 400px;" name="event_name" value="{{ event.event_name }}">
+        </div>
+        <div>
+          <h4>Location:</h4>
+          <input type="text" class='form-control'  name="event_location" value="{{ event.event_location }}">
+        </div>
+      </div>
+      <div style=" height: 25%; width: 50%; display: flex; align-items: center; justify-content: space-between; margin: 0 auto;">
+        <div>
+          <h4>Date:</h4>
+          <input type="date" class='form-control' name="event_date" value="{{ event.event_date|date:"Y-m-d" }}">
+        </div>
+        <div>
+          <h4>Pricing:</h4>
+          <input type="number" class='form-control' name='pricing' value="{{ event.pricing }}" id="pricing" step=".01" min="0">
+        </div>          
+        <div>
+          <h4>Remarks:</h4>
+          <input type="text" class='form-control' name="event_remarks" value="{{ event.event_remarks }}">
+        </div>          
+      </div>
+      <button type="submit" class="btn btn-success" style="width: 200px; height: 40px; position: absolute; bottom: 10%; right: 10%;">
+        Edit Event
+      </button>
+    </form>
+  </div>
+</div>
+<script>
+  var pricing = document.getElementById('pricing')
+  pricing.addEventListener('change', function(){
+    pricing.value = parseFloat(pricing.value).toFixed(2)
+  })
+</script>
+{% endblock %}
